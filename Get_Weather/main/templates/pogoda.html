@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Forecast</title>
+    <!-- Подключаем Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f4f4;
+        }
+
+        .tab-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .weather-info {
+            text-align: center;
+        }
+
+        .weather-icon {
+            max-width: 100px;
+            margin: 10px auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-4">
+    <h1 class="text-center">Get Weather - Погода на ближайшие 7 дней</h1>
+    <!-- Измененный ul для вкладок дней -->
+    <ul class="nav nav-tabs">
+        {% for day_date in days.values %}
+            <li class="nav-item">
+                <a class="nav-link {% if forloop.first %}active{% endif %}" id="{{ 'day' }}{{ forloop.counter }}-tab" data-bs-toggle="tab" href="#{{ 'day' }}{{ forloop.counter }}">{{ day_date.0 }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Измененный div для содержимого вкладок -->
+    <div class="tab-content mt-2">
+        {% for day_date in days.values %}
+            <div class="tab-pane fade {% if forloop.first %}show active{% endif %}" id="{{ 'day' }}{{ forloop.counter }}">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="{{ 'day' }}{{ forloop.counter }}-day-tab" data-bs-toggle="tab" href="#{{ 'day' }}{{ forloop.counter }}-day">День</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="{{ 'day' }}{{ forloop.counter }}-night-tab" data-bs-toggle="tab" href="#{{ 'day' }}{{ forloop.counter }}-night">Ночь</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content mt-2">
+                    <div class="tab-pane fade show active" id="{{ 'day' }}{{ forloop.counter }}-day">
+                        <div class="weather-info">
+                            <h2>Погода на день {{ day_date.0 }}</h2>
+                            <p>Средняя температура: {{ day_date.1 }}</p>
+                            <p>Максимальная температура: {{ day_date.2 }}</p>
+                            <p>Минимальная температура: {{ day_date.3 }}</p>
+                            <p>Ощущается как: {{ day_date.7 }}</p>
+                            <img src="{{ day_date.11 }}" alt="Weather Icon" class="weather-icon">
+                            <p>{{ day_date.9 }}</p>
+                        </div>
+                    </div>
+                
+                    <div class="tab-pane fade" id="{{ 'day' }}{{ forloop.counter }}-night">
+                        <div class="weather-info">
+                            <h2>Погода на ночь {{ day_date.0 }}</h2>
+                            <p>Средняя температура: {{ day_date.4 }}</p>
+                            <p>Максимальная температура: {{ day_date.5 }}</p>
+                            <p>Минимальная температура: {{ day_date.6 }}</p>
+                            <p>Ощущается как: {{ day_date.8 }}</p>
+                            <img src="{{ day_date.11 }}" alt="Weather Icon" class="weather-icon">
+                            <p>{{ day_date.10 }}</p>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Подключаем Bootstrap JavaScript, jQuery и Popper.js -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
